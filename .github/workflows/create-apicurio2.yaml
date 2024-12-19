@@ -9,7 +9,7 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   TERRAFORM_STATE_NAME: ${{ secrets.TERRAFORM_STATE_NAME }}
   APICURIO_API_DOMAIN: "apicurio2.ikenna.dev"
-  APICURIO_API_URL: "https://${{ env.APICURIO_API_DOMAIN }}/apis/registry/v3"
+  APICURIO_API_URL: "https://apicurio2.ikenna.dev/apis/registry/v3"
   APICURIO_UI_DOMAIN: "ui2.ikenna.dev"
 
 jobs:
