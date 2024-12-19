@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "ecs-api-curio-testing"
+    bucket = "$TERRAFORM_STATE_NAME"
     region = "eu-west-2"
     key    = "services-terraform.tfstate"
   }
