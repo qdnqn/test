@@ -20,6 +20,7 @@ jobs:
       - uses: opentofu/setup-opentofu@v1
 
       - name: Envsubst s3 bucket
+        working-directory: terraform/services
         id: envsubst
         run: |
           sudo apt-get update
@@ -29,15 +30,45 @@ jobs:
         continue-on-error: false
 
       - name: OpenTofu fmt
+        working-directory: terraform/services
         id: fmt
         run: tofu fmt -check
         continue-on-error: true
 
       - name: OpenTofu Init
+        working-directory: terraform/services
         id: init
         run: tofu init
 
       - name: OpenTofu Destroy
+        working-directory: terraform/services
+        id: destroy
+        run: tofu destroy -auto-approve
+        continue-on-error: false
+
+      - name: Envsubst s3 bucket
+        working-directory: terraform/services
+        id: envsubst
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext moreutils
+          envsubst < versions.tf | sponge versions.tf
+          envsubst < main.tf | sponge main.tf
+        continue-on-error: false
+
+      - name: OpenTofu fmt
+        working-directory: terraform/apicurio-cluster
+        id: fmt
+        run: tofu fmt -check
+        continue-on-error: true
+
+      - name: OpenTofu Init
+        working-directory: terraform/apicurio-cluster
+        id: init
+        run: tofu init
+
+      - name: OpenTofu Destroy
+        working-directory: terraform/apicurio-cluster
         id: destroy
         run: tofu destroy -auto-approve
         continue-on-error: false
