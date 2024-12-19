@@ -89,7 +89,7 @@ jobs:
 
       - name: Envsubst s3 bucket
         working-directory: terraform/services
-        id: envsubst
+        id: envsubst-services
         run: |
           sudo apt-get update
           sudo apt-get install -y gettext moreutils
@@ -105,28 +105,28 @@ jobs:
 
       - name: OpenTofu fmt
         working-directory: terraform/services
-        id: fmt
+        id: fmt-services
         run: tofu fmt -check
         continue-on-error: true
 
       - name: OpenTofu Init
         working-directory: terraform/services
-        id: init
+        id: init-services
         run: tofu init
 
       - name: OpenTofu Validate
         working-directory: terraform/services
-        id: validate
+        id: validate-services
         run: tofu validate -no-color
 
       - name: OpenTofu Plan
         working-directory: terraform/services
-        id: plan
+        id: plan-services
         run: tofu plan -no-color
         continue-on-error: false
 
       - name: OpenTofu Apply
         working-directory: terraform/services
-        id: apply
+        id: apply-services
         run: tofu apply -auto-approve
         continue-on-error: false

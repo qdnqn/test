@@ -48,7 +48,7 @@ jobs:
 
       - name: Envsubst s3 bucket
         working-directory: terraform/services
-        id: envsubst
+        id: envsubst-services
         run: |
           sudo apt-get update
           sudo apt-get install -y gettext moreutils
@@ -58,17 +58,17 @@ jobs:
 
       - name: OpenTofu fmt
         working-directory: terraform/apicurio-cluster
-        id: fmt
+        id: fmt-services
         run: tofu fmt -check
         continue-on-error: true
 
       - name: OpenTofu Init
         working-directory: terraform/apicurio-cluster
-        id: init
+        id: init-services
         run: tofu init
 
       - name: OpenTofu Destroy
         working-directory: terraform/apicurio-cluster
-        id: destroy
+        id: destroy-services
         run: tofu destroy -auto-approve
         continue-on-error: false
