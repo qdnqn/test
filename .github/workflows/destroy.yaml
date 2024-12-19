@@ -1,4 +1,4 @@
-name: Destroy EKS, ArgoCD and Traefik
+name: Destroy Apicurio on ECS
 
 on:
   workflow_dispatch:
