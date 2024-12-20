@@ -251,7 +251,7 @@ module "alb" {
             {
               type                       = "authenticate-cognito"
               on_unauthenticated_request = "authenticate"
-              session_cookie_name        = "AWSELBAuthSessionCookie"
+              session_cookie_name        = "session-apicurio-service"
               session_timeout            = 3600
               user_pool_arn              = data.aws_cognito_user_pool.cognito_pool.arn
               user_pool_client_id        = "3rtbhqdslnir5kaumagetm16p1"
