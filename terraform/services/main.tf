@@ -217,15 +217,21 @@ module "alb" {
   subnets = data.aws_subnets.public.ids
   security_group_ingress_rules = {
     all_http = {
+      from_port   = 443
+      to_port     = 443
+      ip_protocol = "tcp"
+      description = "HTTP web traffic"
+      cidr_ipv4   = "0.0.0.0/0"
+    }
+  }
+
+  security_group_egress_rules = {
+    all_https = {
       from_port   = 0
       to_port     = 65535
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
-  }
-
-  security_group_egress_rules = {
-
   }
 
   listeners = {
