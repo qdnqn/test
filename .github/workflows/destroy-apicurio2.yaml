@@ -47,7 +47,7 @@ jobs:
         continue-on-error: false
 
       - name: Envsubst s3 bucket
-        working-directory: terraform/services
+        working-directory: terraform/apicurio-cluster
         id: envsubst-services
         run: |
           sudo apt-get update
