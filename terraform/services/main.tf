@@ -327,7 +327,6 @@ module "alb" {
 }
 
 resource "aws_security_group_rule" "cognito_sg" {
-  name        = "cognito_sg"
   description = "Security group for Cognito, allowing incoming traffic from ALB"
 
   security_group_id = module.alb.security_group_id
