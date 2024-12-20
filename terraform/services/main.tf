@@ -224,10 +224,18 @@ module "alb" {
       cidr_ipv4   = "0.0.0.0/0"
     }
   }
-  security_group_egress_rules = { for subnet in data.aws_subnet.private_cidr :
-    (subnet.availability_zone) => {
+  security_group_egress_rules = {
+    for subnet in data.aws_subnet.private_cidr : (subnet.availability_zone) => {
       ip_protocol = "-1"
       cidr_ipv4   = subnet.cidr_block
+    }
+
+    security_group_egress_rules = {
+    all_http = {
+      to_port     = 443
+      ip_protocol = "tcp"
+      description = "HTTPS web traffic"
+      cidr_ipv4   = "0.0.0.0/0"
     }
   }
 
@@ -250,7 +258,7 @@ module "alb" {
             {
               type                       = "authenticate-cognito"
               on_unauthenticated_request = "authenticate"
-              session_cookie_name        = "session-${local.name}"
+              session_cookie_name        = "AWSELBAuthSessionCookie"
               session_timeout            = 3600
               user_pool_arn              = data.aws_cognito_user_pool.cognito_pool.arn
               user_pool_client_id        = "3rtbhqdslnir5kaumagetm16p1"
