@@ -226,11 +226,9 @@ module "alb" {
   }
 
   security_group_egress_rules = {
-    all_https = {
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+    for subnet in data.aws_subnet.private_cidr : (subnet.availability_zone) => {
+      ip_protocol = "-1"
+      cidr_ipv4   = subnet.cidr_block
     }
   }
 
@@ -326,6 +324,20 @@ module "alb" {
   }
 
   tags = local.tags
+}
+
+resource "aws_security_group" "cognito_sg" {
+  name        = "cognito_sg"
+  description = "Security group for Cognito, allowing incoming traffic from ALB"
+
+  security_group_id = module.alb.security_group_id
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_route53_record" "cname_route53_record" {
